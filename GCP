@@ -1,0 +1,24 @@
+provider "google" {
+  project = var.project
+  region  = "us-central1"
+}
+
+resource "google_cloudbuild_trigger" "github_trigger" {
+  name        = "github-ci-trigger"
+  description = "Trigger build on GitHub push"
+
+  github {
+    owner = "your-github-username"
+    name  = "your-repo-name"
+    push {
+      branch = "main"
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+}
+
+variable "project" {
+  description = "GCP Project ID"
+  type        = string
+}
